@@ -43,6 +43,8 @@ namespace OpenAC.Net.NFSe.Nacional.Common;
 /// </summary>
 public sealed class NFSeWebserviceConfig : DFeWebserviceConfigBase
 {
+    private int _codigoMunicipio;
+
     /// <summary>
     /// Uf do webservice em uso
     /// </summary>
@@ -61,15 +63,15 @@ public sealed class NFSeWebserviceConfig : DFeWebserviceConfigBase
     /// <value>The uf codigo.</value>
     public int CodigoMunicipio
     {
-        get;
+        get => _codigoMunicipio;
         set
         {
-            if (field == value) return;
+            if (_codigoMunicipio == value) return;
 
             var municipio = NFSeServiceManager.Instance.Services[value];
             Guard.Against<ArgumentException>(municipio == null, "Município não cadastrado.");
 
-            field = value;
+            _codigoMunicipio = value;
             Municipio = municipio?.Nome ?? string.Empty;
             Provedor = municipio?.Provider ?? NFSeProvider.Nacional;
         }
